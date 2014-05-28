@@ -12,6 +12,27 @@ Note that you need to [install OWASP ZAP](https://code.google.com/p/zaproxy/wiki
 ## Usage
 
 ```
+zapr http://example.com/
+```
+
+The above will output a JSON document of all the alerts for you to do
+with as you choose. Note the environment variable setting the location
+of the ZAP script.  Alternatively output a nicely formatted table:
+
+```
+zapr --summary http://example.com/
+```
+
+If in doubt enable the full debugging output to see what is going on
+under the hood.
+
+```
+zapr --debug http://example.com/
+```
+
+The full usage instructions are as follows:
+
+```
 Usage:
     zapr [OPTIONS] TARGET
 
@@ -25,6 +46,7 @@ Options:
     --timeout TIMEOUT             Timeout for spider and scan (default: $ZAPR_TIMEOUT, or 300)
     -h, --help                    print help
 ```
+
 
 
 ## Installation
