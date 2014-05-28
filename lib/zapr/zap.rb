@@ -49,11 +49,12 @@ module Zapr
       alerts.sort_by! { |item| item["risk"] }
       sorted = alerts.group_by { |item| item["alert"] }
       Terminal::Table.new :headings => ['Alert', 'Risk', 'URL'] do |t|
-        sorted.each do |alert_name, grouped_alerts|
+        sorted.each_with_index do |(alert_name, grouped_alerts), index|
           urls = []
           grouped_alerts.each do |alert|
             urls << alert['url']
           end
+          t.add_separator unless index == 0
           t.add_row [alert_name, grouped_alerts[0]['risk'], urls.join("\n")]
         end
       end
