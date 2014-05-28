@@ -10,8 +10,8 @@ module Zapr
 
   class Command < Clamp::Command
 
-    option "--verbose", :flag, "More verbose output", :default => false
-    option "--output", "PATH", "Path to HTML report", :default => "report.html"
+    option "--debug", :flag, "More verbose output", :default => false
+    option "--summary", :flag, "Output a summary of the results instead of JSON", :default => false
     option "--zap-path", "PATH", "Path to zap.sh startup script", :environment_variable => "ZAP_PATH"
     option "--timeout", "TIMEOUT", "Timeout for spider and scan", :default => 300, :environment_variable => "ZAPR_TIMEOUT" do |timeout|
       Integer(timeout)
@@ -24,10 +24,10 @@ module Zapr
       signal_usage_error "Invalid target URL" unless target =~ /\A#{URI::regexp(['http', 'https'])}\z/
       begin
         zap = Zapr::Proxy.new(target, zap_path, timeout)
-        verbose? ? zap.start : dev_null { zap.start }
+        debug? ? zap.start : dev_null { zap.start }
         zap.spider
         zap.attack
-        puts zap.alerts
+        puts summary? ? zap.summary : zap.alerts
       rescue Timeout::Error
         puts "=====> Timeout".red
         puts "the execution of the spider or scan took too long"

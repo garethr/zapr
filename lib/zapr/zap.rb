@@ -1,4 +1,6 @@
 require 'owasp_zap'
+require 'terminal-table'
+
 require 'timeout'
 
 include OwaspZap
@@ -42,27 +44,19 @@ module Zapr
       JSON.pretty_generate(JSON.parse(@proxy.alerts.view))
     end
 
-    def report(output)
+    def summary
       alerts = JSON.parse(@proxy.alerts.view)['alerts']
-      html = "<html><body><table>"
-      alerts.each_with_index do |alert, index|
-        if index == 0
-          html += "<tr>"
-          alert.keys.each do |key|
-            html += "<th scope=\"col\">#{key}</th>"
+      alerts.sort_by! { |item| item["risk"] }
+      sorted = alerts.group_by { |item| item["alert"] }
+      Terminal::Table.new :headings => ['Alert', 'Risk', 'URL'] do |t|
+        sorted.each do |alert_name, grouped_alerts|
+          urls = []
+          grouped_alerts.each do |alert|
+            urls << alert['url']
           end
-          html += "</tr>"
+          t.add_row [alert_name, grouped_alerts[0]['risk'], urls.join("\n")]
         end
-        html += "<tr>"
-        alert.values.each do |value|
-          html += "<td>#{value}</td>"
-        end
-        html += "</tr>"
       end
-
-      html += "</table></body></html>"
-
-      File.open(output, 'w') { |file| file.write(html) }
     end
 
   end

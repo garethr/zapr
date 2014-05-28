@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "owasp_zap"
   spec.add_dependency "clamp"
   spec.add_dependency "colorize"
+  spec.add_dependency "terminal-table"
 end
