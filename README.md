@@ -1,14 +1,5 @@
 # Zapr
 
-[![Dependency
-Status](https://gemnasium.com/garethr/zapr.svg)](https://gemnasium.com/garethr/zapr)
-
-[![Code
-Climate](https://codeclimate.com/github/garethr/zapr.png)](https://codeclimate.com/github/garethr/zapr)
-
-[![Gem
-Version](https://badge.fury.io/rb/zapr.svg)](http://badge.fury.io/rb/zapr)
-
 A command line tool that:
 
 * Launches [OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
@@ -17,6 +8,13 @@ A command line tool that:
 * Presents the results either as a human friendly table or as JSON
 
 Note that you need to [install OWASP ZAP](https://code.google.com/p/zaproxy/wiki/Downloads?tm=2) before using Zapr.
+
+[![Dependency
+Status](https://gemnasium.com/garethr/zapr.svg)](https://gemnasium.com/garethr/zapr)
+[![Gem
+Version](https://badge.fury.io/rb/zapr.svg)](http://badge.fury.io/rb/zapr)
+[![Code
+Climate](https://codeclimate.com/github/garethr/zapr.png)](https://codeclimate.com/github/garethr/zapr)
 
 ## Usage
 
