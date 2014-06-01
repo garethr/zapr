@@ -54,6 +54,12 @@ Options:
     -h, --help                    print help
 ```
 
+## Example
+
+An example of Zapr running on
+[Travis](https://travis-ci.org/garethr/zapr-example) against
+[Railsgoat](https://github.com/OWASP/railsgoat) can be found at
+[garethr/zapr-example](https://github.com/garethr/zapr-example).
 
 
 ## Installation
