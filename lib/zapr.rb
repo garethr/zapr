@@ -20,6 +20,7 @@ module Zapr
     parameter "TARGET", "Web address to scan and attack with ZAP", :attribute_name => :target
 
     def execute
+      signal_usage_error "Path to ZAP must be set" unless zap_path
       signal_usage_error "Path to ZAP does not exist" unless File.file?(zap_path)
       signal_usage_error "Invalid target URL" unless target =~ /\A#{URI::regexp(['http', 'https'])}\z/
       begin
@@ -27,16 +28,22 @@ module Zapr
         debug? ? zap.start : dev_null { zap.start }
         zap.spider
         zap.attack
-        puts summary? ? zap.summary : zap.alerts
+        puts summary? ? zap.summary : zap.pretty_alerts
       rescue Timeout::Error
         puts "=====> Timeout".red
         puts "the execution of the spider or scan took too long"
+        exit 124
       rescue Exception => e
         puts "=====> An error occured".red
         puts e.message
+        puts e.backtrace.join("\n")
+        exit 125
       ensure
         zap.shutdown if defined? zap
       end
+      puts "code is"
+      puts zap.exit_code
+      exit zap.exit_code
     end
 
   end

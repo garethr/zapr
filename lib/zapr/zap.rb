@@ -40,13 +40,24 @@ module Zapr
       @proxy.shutdown
     end
 
+    def pretty_alerts
+      JSON.pretty_generate(alerts)
+    end
+
     def alerts
-      JSON.pretty_generate(JSON.parse(@proxy.alerts.view))
+      alerts = JSON.parse(@proxy.alerts.view)['alerts']
+      alerts.sort_by! { |item| item["risk"] }
+    end
+
+    def exit_code
+      high = 0
+      alerts.each do |alert|
+        high += 1 if alert['risk'] == 'High'
+      end
+      return high
     end
 
     def summary
-      alerts = JSON.parse(@proxy.alerts.view)['alerts']
-      alerts.sort_by! { |item| item["risk"] }
       sorted = alerts.group_by { |item| item["alert"] }
       Terminal::Table.new :headings => ['Alert', 'Risk', 'URL'] do |t|
         sorted.each_with_index do |(alert_name, grouped_alerts), index|
