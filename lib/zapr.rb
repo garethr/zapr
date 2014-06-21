@@ -41,8 +41,6 @@ module Zapr
       ensure
         zap.shutdown if defined? zap
       end
-      puts "code is"
-      puts zap.exit_code
       exit zap.exit_code
     end
 
