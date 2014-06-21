@@ -12,6 +12,7 @@ module Zapr
 
     option "--debug", :flag, "More verbose output", :default => false
     option "--summary", :flag, "Output a summary of the results instead of JSON", :default => false
+    option "--detailed-exit-codes", :flag, "Exit with number of high priority issues as exit code", :default => false
     option "--zap-path", "PATH", "Path to zap.sh startup script", :environment_variable => "ZAP_PATH"
     option "--timeout", "TIMEOUT", "Timeout for spider and scan", :default => 300, :environment_variable => "ZAPR_TIMEOUT" do |timeout|
       Integer(timeout)
@@ -41,7 +42,7 @@ module Zapr
       ensure
         zap.shutdown if defined? zap
       end
-      exit zap.exit_code
+      exit zap.exit_code if detailed_exit_codes?
     end
 
   end
